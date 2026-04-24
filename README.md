@@ -15,7 +15,7 @@ Documentation:
 - Python 3.13 (`py install 3.13` via the Python Install Manager)
 - ~5 GB free disk
 
-## Inputs (already in repo)
+## Inputs
 
 - `data/bars_2023-01-01_to_2024-01-01.parquet`
 - `data/bars_2024-01-01_to_2025-01-01.parquet`
