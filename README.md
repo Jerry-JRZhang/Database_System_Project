@@ -6,7 +6,7 @@ TimescaleDB container provides a head-to-head comparison.
 
 Documentation:
 - [docs/design_notes.md](docs/design_notes.md) — normalization & physical design
-- [docs/schema.dbml](docs/schema.dbml) — ER-diagram source (paste into dbdiagram.io)
+- [docs/schema.dbml](docs/schema.dbml) — ER-diagram source
 - [docs/optimization_notes.md](docs/optimization_notes.md) — benchmark results & lessons
 
 ## Prerequisites
