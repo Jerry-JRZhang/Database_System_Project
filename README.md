@@ -5,11 +5,9 @@ bars (2023–2024, ~22 M rows) with a Python/Streamlit demo. An optional
 TimescaleDB container provides a head-to-head comparison.
 
 Documentation:
-- [PROJECT_PLAN.md](PROJECT_PLAN.md) — original design & milestones
 - [docs/design_notes.md](docs/design_notes.md) — normalization & physical design
 - [docs/schema.dbml](docs/schema.dbml) — ER-diagram source (paste into dbdiagram.io)
 - [docs/optimization_notes.md](docs/optimization_notes.md) — benchmark results & lessons
-- [docs/presentation_outline.md](docs/presentation_outline.md) — 10-min talk script
 
 ## Prerequisites
 
