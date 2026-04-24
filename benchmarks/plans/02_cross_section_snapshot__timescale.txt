@@ -1,0 +1,263 @@
+Sort  (cost=14829.55..14830.61 rows=424 width=28) (actual time=3.242..3.295 rows=497 loops=1)
+  Sort Key: (((b.close / b_1.close) - '1'::double precision)) DESC NULLS LAST
+  Sort Method: quicksort  Memory: 52kB
+  Buffers: shared hit=1151
+  CTE asof
+    ->  Result  (cost=0.00..0.01 rows=1 width=8) (actual time=0.001..0.001 rows=1 loops=1)
+  ->  Hash Join  (cost=7378.72..14811.03 rows=424 width=28) (actual time=2.143..3.109 rows=497 loops=1)
+        Hash Cond: (b.ticker_id = t.ticker_id)
+        Buffers: shared hit=1151
+        ->  Hash Right Join  (cost=7360.40..14789.47 rows=424 width=20) (actual time=2.004..2.860 rows=497 loops=1)
+              Hash Cond: (b_1.ticker_id = b.ticker_id)
+              Buffers: shared hit=1144
+              ->  Nested Loop  (cost=3.53..7426.62 rows=424 width=12) (actual time=0.419..1.158 rows=497 loops=1)
+                    Buffers: shared hit=572
+                    ->  CTE Scan on asof asof_1  (cost=0.00..0.02 rows=1 width=8) (actual time=0.001..0.002 rows=1 loops=1)
+                    ->  Append  (cost=3.53..7359.23 rows=6737 width=20) (actual time=0.408..1.112 rows=497 loops=1)
+                          Buffers: shared hit=572
+                          ->  Bitmap Heap Scan on _hyper_1_1_chunk b_27  (cost=3.53..283.07 rows=259 width=20) (actual time=0.011..0.011 rows=0 loops=1)
+                                Recheck Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                                ->  Bitmap Index Scan on _hyper_1_1_chunk_bar_5m_ts_idx  (cost=0.00..3.47 rows=259 width=0) (actual time=0.005..0.006 rows=0 loops=1)
+                                      Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                      Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_2_chunk_bar_5m_ts_idx on _hyper_1_2_chunk b_28  (cost=0.43..303.30 rows=273 width=20) (actual time=0.061..0.061 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_3_chunk_bar_5m_ts_idx on _hyper_1_3_chunk b_29  (cost=0.43..310.01 rows=279 width=20) (actual time=0.024..0.024 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_4_chunk_bar_5m_ts_idx on _hyper_1_4_chunk b_30  (cost=0.43..303.26 rows=273 width=20) (actual time=0.017..0.017 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_5_chunk_bar_5m_ts_idx on _hyper_1_5_chunk b_31  (cost=0.43..311.11 rows=280 width=20) (actual time=0.016..0.016 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_6_chunk_bar_5m_ts_idx on _hyper_1_6_chunk b_32  (cost=0.43..298.83 rows=269 width=20) (actual time=0.018..0.018 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_7_chunk_bar_5m_ts_idx on _hyper_1_7_chunk b_33  (cost=0.43..302.18 rows=272 width=20) (actual time=0.023..0.023 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_8_chunk_bar_5m_ts_idx on _hyper_1_8_chunk b_34  (cost=0.43..297.72 rows=268 width=20) (actual time=0.017..0.018 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_9_chunk_bar_5m_ts_idx on _hyper_1_9_chunk b_35  (cost=0.43..305.50 rows=275 width=20) (actual time=0.017..0.017 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_10_chunk_bar_5m_ts_idx on _hyper_1_10_chunk b_36  (cost=0.43..308.88 rows=278 width=20) (actual time=0.015..0.015 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_11_chunk_bar_5m_ts_idx on _hyper_1_11_chunk b_37  (cost=0.43..304.42 rows=274 width=20) (actual time=0.020..0.020 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_12_chunk_bar_5m_ts_idx on _hyper_1_12_chunk b_38  (cost=0.43..297.71 rows=268 width=20) (actual time=0.015..0.015 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_13_chunk_bar_5m_ts_idx on _hyper_1_13_chunk b_39  (cost=0.43..143.90 rows=268 width=20) (actual time=0.015..0.015 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_14_chunk_bar_5m_ts_idx on _hyper_1_14_chunk b_40  (cost=0.43..302.17 rows=271 width=20) (actual time=0.018..0.018 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_15_chunk_bar_5m_ts_idx on _hyper_1_15_chunk b_41  (cost=0.43..293.20 rows=264 width=20) (actual time=0.017..0.017 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_16_chunk_bar_5m_ts_idx on _hyper_1_16_chunk b_42  (cost=0.43..302.15 rows=272 width=20) (actual time=0.015..0.015 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_17_chunk_bar_5m_ts_idx on _hyper_1_17_chunk b_43  (cost=0.43..305.54 rows=275 width=20) (actual time=0.019..0.019 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_18_chunk_bar_5m_ts_idx on _hyper_1_18_chunk b_44  (cost=0.43..299.95 rows=270 width=20) (actual time=0.019..0.019 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_19_chunk_bar_5m_ts_idx on _hyper_1_19_chunk b_45  (cost=0.43..293.22 rows=264 width=20) (actual time=0.024..0.593 rows=497 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=500
+                          ->  Index Scan using _hyper_1_20_chunk_bar_5m_ts_idx on _hyper_1_20_chunk b_46  (cost=0.43..305.50 rows=274 width=20) (actual time=0.016..0.016 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_21_chunk_bar_5m_ts_idx on _hyper_1_21_chunk b_47  (cost=0.43..301.04 rows=271 width=20) (actual time=0.013..0.013 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_22_chunk_bar_5m_ts_idx on _hyper_1_22_chunk b_48  (cost=0.43..293.24 rows=264 width=20) (actual time=0.017..0.017 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_23_chunk_bar_5m_ts_idx on _hyper_1_23_chunk b_49  (cost=0.43..299.92 rows=269 width=20) (actual time=0.023..0.023 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Index Scan using _hyper_1_24_chunk_bar_5m_ts_idx on _hyper_1_24_chunk b_50  (cost=0.43..294.34 rows=264 width=20) (actual time=0.014..0.014 rows=0 loops=1)
+                                Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                          ->  Bitmap Heap Scan on _hyper_1_25_chunk b_51  (cost=3.41..265.39 rows=243 width=20) (actual time=0.008..0.008 rows=0 loops=1)
+                                Recheck Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                Buffers: shared hit=3
+                                ->  Bitmap Index Scan on _hyper_1_25_chunk_bar_5m_ts_idx  (cost=0.00..3.35 rows=243 width=0) (actual time=0.003..0.003 rows=0 loops=1)
+                                      Index Cond: (ts = (asof_1.ts - '1 day'::interval))
+                                      Buffers: shared hit=3
+              ->  Hash  (cost=7351.57..7351.57 rows=424 width=12) (actual time=1.553..1.572 rows=497 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 30kB
+                    Buffers: shared hit=572
+                    ->  Nested Loop  (cost=3.53..7351.57 rows=424 width=12) (actual time=0.334..1.459 rows=497 loops=1)
+                          Buffers: shared hit=572
+                          ->  CTE Scan on asof  (cost=0.00..0.02 rows=1 width=8) (actual time=0.002..0.003 rows=1 loops=1)
+                          ->  Append  (cost=3.53..7284.18 rows=6737 width=20) (actual time=0.329..1.413 rows=497 loops=1)
+                                Buffers: shared hit=572
+                                ->  Bitmap Heap Scan on _hyper_1_1_chunk b_2  (cost=3.53..282.42 rows=259 width=20) (actual time=0.009..0.010 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_1_chunk_bar_5m_ts_idx  (cost=0.00..3.47 rows=259 width=0) (actual time=0.007..0.007 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_2_chunk b_3  (cost=3.64..299.92 rows=273 width=20) (actual time=0.009..0.009 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_2_chunk_bar_5m_ts_idx  (cost=0.00..3.57 rows=273 width=0) (actual time=0.008..0.008 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_3_chunk b_4  (cost=3.69..306.58 rows=279 width=20) (actual time=0.008..0.008 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_3_chunk_bar_5m_ts_idx  (cost=0.00..3.62 rows=279 width=0) (actual time=0.005..0.005 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_4_chunk b_5  (cost=3.64..299.78 rows=273 width=20) (actual time=0.006..0.006 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_4_chunk_bar_5m_ts_idx  (cost=0.00..3.57 rows=273 width=0) (actual time=0.005..0.005 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_5_chunk b_6  (cost=3.69..307.59 rows=280 width=20) (actual time=0.008..0.009 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_5_chunk_bar_5m_ts_idx  (cost=0.00..3.62 rows=280 width=0) (actual time=0.005..0.005 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_6_chunk b_7  (cost=3.61..295.45 rows=269 width=20) (actual time=0.005..0.005 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_6_chunk_bar_5m_ts_idx  (cost=0.00..3.54 rows=269 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_7_chunk b_8  (cost=3.63..298.78 rows=272 width=20) (actual time=0.009..0.010 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_7_chunk_bar_5m_ts_idx  (cost=0.00..3.56 rows=272 width=0) (actual time=0.009..0.009 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_8_chunk b_9  (cost=3.60..294.34 rows=268 width=20) (actual time=0.004..0.005 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_8_chunk_bar_5m_ts_idx  (cost=0.00..3.53 rows=268 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_9_chunk b_10  (cost=3.66..302.07 rows=275 width=20) (actual time=0.007..0.008 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_9_chunk_bar_5m_ts_idx  (cost=0.00..3.59 rows=275 width=0) (actual time=0.006..0.006 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_10_chunk b_11  (cost=3.68..305.48 rows=278 width=20) (actual time=0.007..0.008 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_10_chunk_bar_5m_ts_idx  (cost=0.00..3.61 rows=278 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_11_chunk b_12  (cost=3.65..301.03 rows=274 width=20) (actual time=0.004..0.004 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_11_chunk_bar_5m_ts_idx  (cost=0.00..3.58 rows=274 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_12_chunk b_13  (cost=3.60..294.30 rows=268 width=20) (actual time=0.007..0.008 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_12_chunk_bar_5m_ts_idx  (cost=0.00..3.53 rows=268 width=0) (actual time=0.003..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Index Scan using _hyper_1_13_chunk_bar_5m_ts_idx on _hyper_1_13_chunk b_14  (cost=0.42..143.89 rows=268 width=20) (actual time=0.019..0.020 rows=0 loops=1)
+                                      Index Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_14_chunk b_15  (cost=3.63..298.93 rows=271 width=20) (actual time=0.004..0.004 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_14_chunk_bar_5m_ts_idx  (cost=0.00..3.56 rows=271 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_15_chunk b_16  (cost=3.57..289.87 rows=264 width=20) (actual time=0.007..0.007 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_15_chunk_bar_5m_ts_idx  (cost=0.00..3.50 rows=264 width=0) (actual time=0.006..0.007 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_16_chunk b_17  (cost=3.63..298.82 rows=272 width=20) (actual time=0.007..0.008 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_16_chunk_bar_5m_ts_idx  (cost=0.00..3.56 rows=272 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_17_chunk b_18  (cost=3.66..302.23 rows=275 width=20) (actual time=0.005..0.005 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_17_chunk_bar_5m_ts_idx  (cost=0.00..3.59 rows=275 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_18_chunk b_19  (cost=3.62..296.53 rows=270 width=20) (actual time=0.008..0.008 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_18_chunk_bar_5m_ts_idx  (cost=0.00..3.55 rows=270 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_19_chunk b_20  (cost=3.57..289.81 rows=264 width=20) (actual time=0.177..1.131 rows=497 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Heap Blocks: exact=497
+                                      Buffers: shared hit=500
+                                      ->  Bitmap Index Scan on _hyper_1_19_chunk_bar_5m_ts_idx  (cost=0.00..3.50 rows=264 width=0) (actual time=0.133..0.133 rows=497 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_20_chunk b_21  (cost=3.65..302.26 rows=274 width=20) (actual time=0.020..0.021 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_20_chunk_bar_5m_ts_idx  (cost=0.00..3.58 rows=274 width=0) (actual time=0.015..0.015 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_21_chunk b_22  (cost=3.63..297.73 rows=271 width=20) (actual time=0.007..0.007 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_21_chunk_bar_5m_ts_idx  (cost=0.00..3.56 rows=271 width=0) (actual time=0.005..0.005 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_22_chunk b_23  (cost=3.57..289.97 rows=264 width=20) (actual time=0.008..0.009 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_22_chunk_bar_5m_ts_idx  (cost=0.00..3.50 rows=264 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_23_chunk b_24  (cost=3.61..296.78 rows=269 width=20) (actual time=0.007..0.007 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_23_chunk_bar_5m_ts_idx  (cost=0.00..3.54 rows=269 width=0) (actual time=0.005..0.005 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_24_chunk b_25  (cost=3.57..291.15 rows=264 width=20) (actual time=0.009..0.010 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_24_chunk_bar_5m_ts_idx  (cost=0.00..3.50 rows=264 width=0) (actual time=0.007..0.007 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+                                ->  Bitmap Heap Scan on _hyper_1_25_chunk b_26  (cost=3.41..264.78 rows=243 width=20) (actual time=0.005..0.006 rows=0 loops=1)
+                                      Recheck Cond: (ts = asof.ts)
+                                      Buffers: shared hit=3
+                                      ->  Bitmap Index Scan on _hyper_1_25_chunk_bar_5m_ts_idx  (cost=0.00..3.35 rows=243 width=0) (actual time=0.004..0.004 rows=0 loops=1)
+                                            Index Cond: (ts = asof.ts)
+                                            Buffers: shared hit=3
+        ->  Hash  (cost=12.03..12.03 rows=503 width=8) (actual time=0.108..0.109 rows=503 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 29kB
+              Buffers: shared hit=7
+              ->  Seq Scan on ticker t  (cost=0.00..12.03 rows=503 width=8) (actual time=0.007..0.044 rows=503 loops=1)
+                    Buffers: shared hit=7
+Planning:
+  Buffers: shared hit=467
+Planning Time: 4.337 ms
+Execution Time: 5.334 ms

@@ -1,0 +1,44 @@
+Limit  (cost=13592.69..13592.74 rows=20 width=44) (actual time=951.853..952.447 rows=20 loops=1)
+  Buffers: shared hit=35 read=11124
+  ->  Sort  (cost=13592.69..13593.93 rows=497 width=44) (actual time=951.852..952.444 rows=20 loops=1)
+        Sort Key: (((window_bars.last_close / window_bars.first_open) - '1'::double precision)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=35 read=11124
+        ->  Merge Join  (cost=13242.99..13579.47 rows=497 width=44) (actual time=946.388..952.336 rows=497 loops=1)
+              Merge Cond: (window_bars.ticker_id = t.ticker_id)
+              Buffers: shared hit=35 read=11124
+              ->  Unique  (cost=13242.72..13543.98 rows=497 width=28) (actual time=945.653..949.361 rows=497 loops=1)
+                    Buffers: shared hit=35 read=11114
+                    ->  Incremental Sort  (cost=13242.72..13527.98 rows=1600 width=28) (actual time=945.652..949.025 rows=2948 loops=1)
+                          Sort Key: window_bars.ticker_id, window_bars.first_open, window_bars.last_close, (((window_bars.last_close / window_bars.first_open) - '1'::double precision))
+                          Presorted Key: window_bars.ticker_id
+                          Full-sort Groups: 83  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
+                          Buffers: shared hit=35 read=11114
+                          ->  Subquery Scan on window_bars  (cost=13242.20..13484.55 rows=1600 width=28) (actual time=945.599..948.294 rows=2948 loops=1)
+                                Buffers: shared hit=35 read=11114
+                                ->  WindowAgg  (cost=13242.20..13460.55 rows=1600 width=28) (actual time=945.597..947.977 rows=2948 loops=1)
+                                      Buffers: shared hit=35 read=11114
+                                      ->  Gather Merge  (cost=13242.20..13428.55 rows=1600 width=28) (actual time=945.585..946.600 rows=2948 loops=1)
+                                            Workers Planned: 2
+                                            Workers Launched: 2
+                                            Buffers: shared hit=35 read=11114
+                                            ->  Sort  (cost=12242.18..12243.84 rows=667 width=28) (actual time=926.692..926.737 rows=983 loops=3)
+                                                  Sort Key: bar_5m.ticker_id, bar_5m.ts
+                                                  Sort Method: quicksort  Memory: 76kB
+                                                  Buffers: shared hit=35 read=11114
+                                                  Worker 0:  Sort Method: quicksort  Memory: 78kB
+                                                  Worker 1:  Sort Method: quicksort  Memory: 105kB
+                                                  ->  Parallel Bitmap Heap Scan on bar_5m_2024_09 bar_5m  (cost=5.34..12207.55 rows=667 width=28) (actual time=5.015..925.823 rows=983 loops=3)
+                                                        Recheck Cond: ((ts >= '2024-09-18 13:30:00+00'::timestamp with time zone) AND (ts < '2024-09-18 14:00:00+00'::timestamp with time zone))
+                                                        Rows Removed by Index Recheck: 297914
+                                                        Heap Blocks: lossy=3787
+                                                        Buffers: shared hit=1 read=11114
+                                                        ->  Bitmap Index Scan on bar_5m_2024_09_ts_idx  (cost=0.00..4.94 rows=174434 width=0) (actual time=1.432..1.432 rows=111120 loops=1)
+                                                              Index Cond: ((ts >= '2024-09-18 13:30:00+00'::timestamp with time zone) AND (ts < '2024-09-18 14:00:00+00'::timestamp with time zone))
+                                                              Buffers: shared hit=1 read=2
+              ->  Index Scan using ticker_pkey on ticker t  (cost=0.27..19.32 rows=503 width=8) (actual time=0.719..2.375 rows=501 loops=1)
+                    Buffers: shared read=10
+Planning:
+  Buffers: shared hit=1
+Planning Time: 0.369 ms
+Execution Time: 952.508 ms

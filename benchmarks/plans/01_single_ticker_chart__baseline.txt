@@ -1,0 +1,16 @@
+Sort  (cost=983.90..988.31 rows=1766 width=48) (actual time=1.579..1.707 rows=3780 loops=1)
+  Sort Key: b.ts
+  Sort Method: quicksort  Memory: 362kB
+  Buffers: shared hit=67
+  ->  Nested Loop  (cost=0.70..888.65 rows=1766 width=48) (actual time=0.046..0.914 rows=3780 loops=1)
+        Buffers: shared hit=67
+        ->  Index Scan using ticker_symbol_key on ticker t  (cost=0.27..2.49 rows=1 width=4) (actual time=0.024..0.024 rows=1 loops=1)
+              Index Cond: (symbol = 'AAPL'::text)
+              Buffers: shared hit=3
+        ->  Index Scan using bar_5m_2024_03_pkey on bar_5m_2024_03 b  (cost=0.42..868.21 rows=1795 width=52) (actual time=0.021..0.590 rows=3780 loops=1)
+              Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-03-01 00:00:00+00'::timestamp with time zone) AND (ts < '2024-04-01 00:00:00+00'::timestamp with time zone))
+              Buffers: shared hit=64
+Planning:
+  Buffers: shared hit=7
+Planning Time: 0.287 ms
+Execution Time: 1.893 ms

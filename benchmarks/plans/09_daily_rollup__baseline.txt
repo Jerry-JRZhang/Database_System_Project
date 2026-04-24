@@ -1,0 +1,78 @@
+GroupAggregate  (cost=11338.99..11343.47 rows=112 width=68) (actual time=38.289..45.264 rows=252 loops=1)
+  Group Key: (((b.ts AT TIME ZONE 'America/New_York'::text))::date)
+  Buffers: shared hit=790
+  ->  Sort  (cost=11338.99..11339.27 rows=112 width=52) (actual time=38.230..38.953 rows=19653 loops=1)
+        Sort Key: (((b.ts AT TIME ZONE 'America/New_York'::text))::date), b.ts
+        Sort Method: quicksort  Memory: 2304kB
+        Buffers: shared hit=790
+        ->  Nested Loop  (cost=0.70..11335.18 rows=112 width=52) (actual time=0.137..33.254 rows=19653 loops=1)
+              Buffers: shared hit=790
+              ->  Index Scan using ticker_symbol_key on ticker t  (cost=0.27..2.49 rows=1 width=4) (actual time=0.029..0.035 rows=1 loops=1)
+                    Index Cond: (symbol = 'AAPL'::text)
+                    Buffers: shared hit=3
+              ->  Append  (cost=0.42..11331.00 rows=113 width=52) (actual time=0.093..27.400 rows=19653 loops=1)
+                    Buffers: shared hit=787
+                    ->  Index Scan using bar_5m_2024_01_pkey on bar_5m_2024_01 b_1  (cost=0.42..943.97 rows=9 width=52) (actual time=0.087..2.312 rows=1638 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2271
+                          Buffers: shared hit=66
+                    ->  Index Scan using bar_5m_2024_02_pkey on bar_5m_2024_02 b_2  (cost=0.42..905.71 rows=9 width=52) (actual time=0.042..1.917 rows=1560 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2130
+                          Buffers: shared hit=63
+                    ->  Index Scan using bar_5m_2024_03_pkey on bar_5m_2024_03 b_3  (cost=0.42..897.35 rows=9 width=52) (actual time=0.049..2.142 rows=1560 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2220
+                          Buffers: shared hit=64
+                    ->  Index Scan using bar_5m_2024_04_pkey on bar_5m_2024_04 b_4  (cost=0.42..988.51 rows=10 width=52) (actual time=0.037..2.163 rows=1716 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2346
+                          Buffers: shared hit=69
+                    ->  Index Scan using bar_5m_2024_05_pkey on bar_5m_2024_05 b_5  (cost=0.42..980.22 rows=10 width=52) (actual time=0.045..2.459 rows=1716 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2307
+                          Buffers: shared hit=68
+                    ->  Index Scan using bar_5m_2024_06_pkey on bar_5m_2024_06 b_6  (cost=0.42..847.63 rows=9 width=52) (actual time=0.073..2.262 rows=1482 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2086
+                          Buffers: shared hit=61
+                    ->  Index Scan using bar_5m_2024_07_pkey on bar_5m_2024_07 b_7  (cost=0.42..978.28 rows=10 width=52) (actual time=0.045..2.458 rows=1716 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2345
+                          Buffers: shared hit=69
+                    ->  Index Scan using bar_5m_2024_08_pkey on bar_5m_2024_08 b_8  (cost=0.42..993.45 rows=10 width=52) (actual time=0.056..2.228 rows=1716 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2356
+                          Buffers: shared hit=69
+                    ->  Index Scan using bar_5m_2024_09_pkey on bar_5m_2024_09 b_9  (cost=0.42..899.64 rows=9 width=52) (actual time=0.035..1.871 rows=1560 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2145
+                          Buffers: shared hit=63
+                    ->  Index Scan using bar_5m_2024_10_pkey on bar_5m_2024_10 b_10  (cost=0.42..1046.70 rows=10 width=52) (actual time=0.035..2.241 rows=1794 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2376
+                          Buffers: shared hit=70
+                    ->  Index Scan using bar_5m_2024_11_pkey on bar_5m_2024_11 b_11  (cost=0.42..909.73 rows=9 width=52) (actual time=0.040..1.918 rows=1559 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2039
+                          Buffers: shared hit=61
+                    ->  Index Scan using bar_5m_2024_12_pkey on bar_5m_2024_12 b_12  (cost=0.42..939.23 rows=9 width=52) (actual time=0.096..2.176 rows=1636 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: ((((ts AT TIME ZONE 'America/New_York'::text))::time without time zone >= '09:30:00'::time without time zone) AND (((ts AT TIME ZONE 'America/New_York'::text))::time without time zone < '16:00:00'::time without time zone))
+                          Rows Removed by Filter: 2092
+                          Buffers: shared hit=64
+Planning:
+  Buffers: shared hit=19
+Planning Time: 1.255 ms
+Execution Time: 45.742 ms

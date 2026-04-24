@@ -1,0 +1,21 @@
+Sort  (cost=1033.65..1038.11 rows=1782 width=48) (actual time=16.730..16.853 rows=3780 loops=1)
+  Sort Key: b.ts
+  Sort Method: quicksort  Memory: 362kB
+  Buffers: shared hit=4 read=70
+  ->  Nested Loop  (cost=0.70..937.43 rows=1782 width=48) (actual time=1.399..15.688 rows=3780 loops=1)
+        Buffers: shared hit=1 read=70
+        ->  Index Scan using ticker_symbol_key on ticker t  (cost=0.27..2.49 rows=1 width=4) (actual time=0.524..0.526 rows=1 loops=1)
+              Index Cond: (symbol = 'AAPL'::text)
+              Buffers: shared hit=1 read=2
+        ->  Append  (cost=0.42..916.86 rows=1808 width=52) (actual time=0.873..14.819 rows=3780 loops=1)
+              Buffers: shared read=68
+              ->  Index Scan using "15_29_bar_5m_pkey" on _hyper_1_15_chunk b_1  (cost=0.42..498.18 rows=997 width=52) (actual time=0.870..8.040 rows=2095 loops=1)
+                    Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-03-01 00:00:00+00'::timestamp with time zone) AND (ts < '2024-04-01 00:00:00+00'::timestamp with time zone))
+                    Buffers: shared read=38
+              ->  Index Scan using "16_31_bar_5m_pkey" on _hyper_1_16_chunk b_2  (cost=0.42..409.64 rows=811 width=52) (actual time=0.880..6.529 rows=1685 loops=1)
+                    Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-03-01 00:00:00+00'::timestamp with time zone) AND (ts < '2024-04-01 00:00:00+00'::timestamp with time zone))
+                    Buffers: shared read=30
+Planning:
+  Buffers: shared hit=938 read=119
+Planning Time: 75.157 ms
+Execution Time: 17.254 ms

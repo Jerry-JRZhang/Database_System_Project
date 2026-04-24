@@ -1,0 +1,280 @@
+GroupAggregate  (cost=11263.89..49885.28 rows=112 width=68) (actual time=189.797..217.934 rows=252 loops=1)
+  Group Key: ((b.ts)::date)
+  Buffers: shared hit=4167 read=789
+  ->  Sort  (cost=11263.89..11264.17 rows=112 width=36) (actual time=189.522..190.231 rows=19907 loops=1)
+        Sort Key: ((b.ts)::date)
+        Sort Method: quicksort  Memory: 2013kB
+        Buffers: shared hit=4 read=789
+        ->  Nested Loop  (cost=0.70..11260.08 rows=112 width=36) (actual time=1.383..184.226 rows=19907 loops=1)
+              Buffers: shared hit=1 read=789
+              ->  Index Scan using ticker_symbol_key on ticker t  (cost=0.27..2.49 rows=1 width=4) (actual time=0.498..0.500 rows=1 loops=1)
+                    Index Cond: (symbol = 'AAPL'::text)
+                    Buffers: shared hit=1 read=2
+              ->  Append  (cost=0.42..11256.18 rows=113 width=36) (actual time=0.880..180.557 rows=19907 loops=1)
+                    Buffers: shared read=787
+                    ->  Index Scan using bar_5m_2024_01_pkey on bar_5m_2024_01 b_1  (cost=0.42..937.89 rows=9 width=36) (actual time=0.877..15.051 rows=1659 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2250
+                          Buffers: shared read=66
+                    ->  Index Scan using bar_5m_2024_02_pkey on bar_5m_2024_02 b_2  (cost=0.42..899.54 rows=9 width=36) (actual time=0.853..14.120 rows=1580 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2110
+                          Buffers: shared read=63
+                    ->  Index Scan using bar_5m_2024_03_pkey on bar_5m_2024_03 b_3  (cost=0.42..891.27 rows=9 width=36) (actual time=0.874..14.275 rows=1580 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2200
+                          Buffers: shared read=64
+                    ->  Index Scan using bar_5m_2024_04_pkey on bar_5m_2024_04 b_4  (cost=0.42..981.99 rows=10 width=36) (actual time=0.904..15.884 rows=1738 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2324
+                          Buffers: shared read=69
+                    ->  Index Scan using bar_5m_2024_05_pkey on bar_5m_2024_05 b_5  (cost=0.42..973.78 rows=10 width=36) (actual time=0.850..14.973 rows=1738 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2285
+                          Buffers: shared read=68
+                    ->  Index Scan using bar_5m_2024_06_pkey on bar_5m_2024_06 b_6  (cost=0.42..842.04 rows=9 width=36) (actual time=0.912..13.585 rows=1501 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2067
+                          Buffers: shared read=61
+                    ->  Index Scan using bar_5m_2024_07_pkey on bar_5m_2024_07 b_7  (cost=0.42..971.86 rows=10 width=36) (actual time=0.945..15.604 rows=1738 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2323
+                          Buffers: shared read=69
+                    ->  Index Scan using bar_5m_2024_08_pkey on bar_5m_2024_08 b_8  (cost=0.42..986.89 rows=10 width=36) (actual time=0.829..15.567 rows=1738 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2334
+                          Buffers: shared read=69
+                    ->  Index Scan using bar_5m_2024_09_pkey on bar_5m_2024_09 b_9  (cost=0.42..893.54 rows=9 width=36) (actual time=0.829..13.850 rows=1580 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2125
+                          Buffers: shared read=63
+                    ->  Index Scan using bar_5m_2024_10_pkey on bar_5m_2024_10 b_10  (cost=0.42..1039.60 rows=10 width=36) (actual time=0.863..15.397 rows=1817 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2353
+                          Buffers: shared read=70
+                    ->  Index Scan using bar_5m_2024_11_pkey on bar_5m_2024_11 b_11  (cost=0.42..904.01 rows=9 width=36) (actual time=0.812..16.480 rows=1580 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2018
+                          Buffers: shared read=61
+                    ->  Index Scan using bar_5m_2024_12_pkey on bar_5m_2024_12 b_12  (cost=0.42..933.21 rows=9 width=36) (actual time=0.926..14.282 rows=1658 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2070
+                          Buffers: shared read=64
+  SubPlan 1
+    ->  Limit  (cost=172.40..172.40 rows=1 width=16) (actual time=0.052..0.052 rows=1 loops=252)
+          Buffers: shared hit=2083
+          ->  Sort  (cost=172.40..172.40 rows=1 width=16) (actual time=0.052..0.052 rows=1 loops=252)
+                Sort Key: b_13.ts
+                Sort Method: top-N heapsort  Memory: 25kB
+                Buffers: shared hit=2083
+                ->  Nested Loop  (cost=0.71..172.39 rows=1 width=16) (actual time=0.014..0.044 rows=79 loops=252)
+                      Buffers: shared hit=2080
+                      ->  Index Scan using ticker_symbol_key on ticker t_1  (cost=0.27..2.49 rows=1 width=4) (actual time=0.002..0.002 rows=1 loops=252)
+                            Index Cond: (symbol = 'AAPL'::text)
+                            Buffers: shared hit=756
+                      ->  Append  (cost=0.43..169.65 rows=25 width=20) (actual time=0.011..0.036 rows=79 loops=252)
+                            Buffers: shared hit=1324
+                            ->  Index Scan using bar_5m_2023_01_pkey on bar_5m_2023_01 b_14  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_02_pkey on bar_5m_2023_02 b_15  (cost=0.43..6.27 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_03_pkey on bar_5m_2023_03 b_16  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_04_pkey on bar_5m_2023_04 b_17  (cost=0.43..6.27 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_05_pkey on bar_5m_2023_05 b_18  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_06_pkey on bar_5m_2023_06 b_19  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_07_pkey on bar_5m_2023_07 b_20  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_08_pkey on bar_5m_2023_08 b_21  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_09_pkey on bar_5m_2023_09 b_22  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_10_pkey on bar_5m_2023_10 b_23  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_11_pkey on bar_5m_2023_11 b_24  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_12_pkey on bar_5m_2023_12 b_25  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2024_01_pkey on bar_5m_2024_01 b_26  (cost=0.43..6.79 rows=1 width=20) (actual time=0.010..0.032 rows=79 loops=21)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=109
+                            ->  Index Scan using bar_5m_2024_02_pkey on bar_5m_2024_02 b_27  (cost=0.43..6.79 rows=1 width=20) (actual time=0.009..0.028 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=105
+                            ->  Index Scan using bar_5m_2024_03_pkey on bar_5m_2024_03 b_28  (cost=0.43..6.79 rows=1 width=20) (actual time=0.008..0.027 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=106
+                            ->  Index Scan using bar_5m_2024_04_pkey on bar_5m_2024_04 b_29  (cost=0.43..7.30 rows=1 width=20) (actual time=0.011..0.029 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=116
+                            ->  Index Scan using bar_5m_2024_05_pkey on bar_5m_2024_05 b_30  (cost=0.43..7.30 rows=1 width=20) (actual time=0.010..0.031 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=117
+                            ->  Index Scan using bar_5m_2024_06_pkey on bar_5m_2024_06 b_31  (cost=0.43..6.79 rows=1 width=20) (actual time=0.009..0.027 rows=79 loops=19)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=100
+                            ->  Index Scan using bar_5m_2024_07_pkey on bar_5m_2024_07 b_32  (cost=0.43..7.30 rows=1 width=20) (actual time=0.009..0.027 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=115
+                            ->  Index Scan using bar_5m_2024_08_pkey on bar_5m_2024_08 b_33  (cost=0.43..7.30 rows=1 width=20) (actual time=0.008..0.027 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=116
+                            ->  Index Scan using bar_5m_2024_09_pkey on bar_5m_2024_09 b_34  (cost=0.43..6.79 rows=1 width=20) (actual time=0.009..0.029 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=106
+                            ->  Index Scan using bar_5m_2024_10_pkey on bar_5m_2024_10 b_35  (cost=0.43..7.82 rows=1 width=20) (actual time=0.013..0.039 rows=79 loops=23)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=119
+                            ->  Index Scan using bar_5m_2024_11_pkey on bar_5m_2024_11 b_36  (cost=0.43..6.79 rows=1 width=20) (actual time=0.010..0.029 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=104
+                            ->  Index Scan using bar_5m_2024_12_pkey on bar_5m_2024_12 b_37  (cost=0.43..6.79 rows=1 width=20) (actual time=0.009..0.029 rows=79 loops=21)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=111
+                            ->  Index Scan using bar_5m_default_pkey on bar_5m_default b_38  (cost=0.28..2.51 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+  SubPlan 2
+    ->  Limit  (cost=172.40..172.40 rows=1 width=16) (actual time=0.049..0.049 rows=1 loops=252)
+          Buffers: shared hit=2080
+          ->  Sort  (cost=172.40..172.40 rows=1 width=16) (actual time=0.048..0.048 rows=1 loops=252)
+                Sort Key: b_39.ts DESC
+                Sort Method: top-N heapsort  Memory: 25kB
+                Buffers: shared hit=2080
+                ->  Nested Loop  (cost=0.71..172.39 rows=1 width=16) (actual time=0.011..0.041 rows=79 loops=252)
+                      Buffers: shared hit=2080
+                      ->  Index Scan using ticker_symbol_key on ticker t_2  (cost=0.27..2.49 rows=1 width=4) (actual time=0.002..0.002 rows=1 loops=252)
+                            Index Cond: (symbol = 'AAPL'::text)
+                            Buffers: shared hit=756
+                      ->  Append  (cost=0.43..169.65 rows=25 width=20) (actual time=0.008..0.033 rows=79 loops=252)
+                            Buffers: shared hit=1324
+                            ->  Index Scan using bar_5m_2023_01_pkey on bar_5m_2023_01 b_40  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_02_pkey on bar_5m_2023_02 b_41  (cost=0.43..6.27 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_03_pkey on bar_5m_2023_03 b_42  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_04_pkey on bar_5m_2023_04 b_43  (cost=0.43..6.27 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_05_pkey on bar_5m_2023_05 b_44  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_06_pkey on bar_5m_2023_06 b_45  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_07_pkey on bar_5m_2023_07 b_46  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_08_pkey on bar_5m_2023_08 b_47  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_09_pkey on bar_5m_2023_09 b_48  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_10_pkey on bar_5m_2023_10 b_49  (cost=0.43..7.30 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_11_pkey on bar_5m_2023_11 b_50  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2023_12_pkey on bar_5m_2023_12 b_51  (cost=0.43..6.79 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                            ->  Index Scan using bar_5m_2024_01_pkey on bar_5m_2024_01 b_52  (cost=0.43..6.79 rows=1 width=20) (actual time=0.007..0.028 rows=79 loops=21)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=109
+                            ->  Index Scan using bar_5m_2024_02_pkey on bar_5m_2024_02 b_53  (cost=0.43..6.79 rows=1 width=20) (actual time=0.006..0.027 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=105
+                            ->  Index Scan using bar_5m_2024_03_pkey on bar_5m_2024_03 b_54  (cost=0.43..6.79 rows=1 width=20) (actual time=0.006..0.024 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=106
+                            ->  Index Scan using bar_5m_2024_04_pkey on bar_5m_2024_04 b_55  (cost=0.43..7.30 rows=1 width=20) (actual time=0.008..0.025 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=116
+                            ->  Index Scan using bar_5m_2024_05_pkey on bar_5m_2024_05 b_56  (cost=0.43..7.30 rows=1 width=20) (actual time=0.008..0.026 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=117
+                            ->  Index Scan using bar_5m_2024_06_pkey on bar_5m_2024_06 b_57  (cost=0.43..6.79 rows=1 width=20) (actual time=0.006..0.024 rows=79 loops=19)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=100
+                            ->  Index Scan using bar_5m_2024_07_pkey on bar_5m_2024_07 b_58  (cost=0.43..7.30 rows=1 width=20) (actual time=0.006..0.025 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=115
+                            ->  Index Scan using bar_5m_2024_08_pkey on bar_5m_2024_08 b_59  (cost=0.43..7.30 rows=1 width=20) (actual time=0.007..0.027 rows=79 loops=22)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=116
+                            ->  Index Scan using bar_5m_2024_09_pkey on bar_5m_2024_09 b_60  (cost=0.43..6.79 rows=1 width=20) (actual time=0.007..0.026 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=106
+                            ->  Index Scan using bar_5m_2024_10_pkey on bar_5m_2024_10 b_61  (cost=0.43..7.82 rows=1 width=20) (actual time=0.011..0.034 rows=79 loops=23)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=119
+                            ->  Index Scan using bar_5m_2024_11_pkey on bar_5m_2024_11 b_62  (cost=0.43..6.79 rows=1 width=20) (actual time=0.007..0.024 rows=79 loops=20)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=104
+                            ->  Index Scan using bar_5m_2024_12_pkey on bar_5m_2024_12 b_63  (cost=0.43..6.79 rows=1 width=20) (actual time=0.007..0.025 rows=79 loops=21)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+                                  Buffers: shared hit=111
+                            ->  Index Scan using bar_5m_default_pkey on bar_5m_default b_64  (cost=0.28..2.51 rows=1 width=20) (never executed)
+                                  Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                  Filter: ((ts)::date = (b.ts)::date)
+Planning:
+  Buffers: shared hit=1865 read=205
+Planning Time: 127.167 ms
+Execution Time: 220.074 ms

@@ -1,0 +1,10 @@
+GroupAggregate  (cost=0.42..13170.14 rows=51099 width=56) (actual time=0.614..83.332 rows=690 loops=1)
+  Group Key: _hyper_1_13_chunk.ts
+  Buffers: shared hit=173350
+  ->  Index Scan Backward using _hyper_1_13_chunk_bar_5m_ts_idx on _hyper_1_13_chunk  (cost=0.42..10003.42 rows=168532 width=24) (actual time=0.029..68.789 rows=172952 loops=1)
+        Index Cond: ((ts >= '2024-01-02 14:30:00+00'::timestamp with time zone) AND (ts < '2024-01-06 00:00:00+00'::timestamp with time zone))
+        Buffers: shared hit=173350
+Planning:
+  Buffers: shared hit=17
+Planning Time: 0.500 ms
+Execution Time: 83.478 ms

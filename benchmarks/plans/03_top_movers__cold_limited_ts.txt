@@ -1,0 +1,35 @@
+Limit  (cost=321.97..322.02 rows=20 width=44) (actual time=115.522..115.531 rows=20 loops=1)
+  Buffers: shared hit=2441 read=529
+  ->  Sort  (cost=321.97..322.56 rows=238 width=44) (actual time=115.520..115.527 rows=20 loops=1)
+        Sort Key: (((window_bars.last_close / window_bars.first_open) - '1'::double precision)) DESC
+        Sort Method: top-N heapsort  Memory: 27kB
+        Buffers: shared hit=2441 read=529
+        ->  Hash Join  (cost=307.27..315.63 rows=238 width=44) (actual time=114.962..115.383 rows=497 loops=1)
+              Hash Cond: (window_bars.ticker_id = t.ticker_id)
+              Buffers: shared hit=2438 read=529
+              ->  HashAggregate  (cost=288.96..292.53 rows=238 width=28) (actual time=113.391..113.462 rows=497 loops=1)
+                    Group Key: window_bars.ticker_id, window_bars.first_open, window_bars.last_close, ((window_bars.last_close / window_bars.first_open) - '1'::double precision)
+                    Batches: 1  Memory Usage: 105kB
+                    Buffers: shared hit=2438 read=522
+                    ->  Subquery Scan on window_bars  (cost=277.65..286.58 rows=238 width=28) (actual time=111.176..112.721 rows=2948 loops=1)
+                          Buffers: shared hit=2438 read=522
+                          ->  WindowAgg  (cost=277.65..283.01 rows=238 width=28) (actual time=111.174..112.426 rows=2948 loops=1)
+                                Buffers: shared hit=2438 read=522
+                                ->  Sort  (cost=277.65..278.25 rows=238 width=28) (actual time=111.156..111.296 rows=2948 loops=1)
+                                      Sort Key: _hyper_1_22_chunk.ticker_id, _hyper_1_22_chunk.ts
+                                      Sort Method: quicksort  Memory: 258kB
+                                      Buffers: shared hit=2438 read=522
+                                      ->  Result  (cost=0.42..268.26 rows=238 width=28) (actual time=0.831..109.665 rows=2948 loops=1)
+                                            Buffers: shared hit=2432 read=522
+                                            ->  Index Scan using _hyper_1_22_chunk_bar_5m_ts_idx on _hyper_1_22_chunk  (cost=0.42..265.88 rows=238 width=28) (actual time=0.830..109.198 rows=2948 loops=1)
+                                                  Index Cond: ((ts >= '2024-09-18 13:30:00+00'::timestamp with time zone) AND (ts < '2024-09-18 14:00:00+00'::timestamp with time zone))
+                                                  Buffers: shared hit=2432 read=522
+              ->  Hash  (cost=12.03..12.03 rows=503 width=8) (actual time=1.523..1.523 rows=503 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 29kB
+                    Buffers: shared read=7
+                    ->  Seq Scan on ticker t  (cost=0.00..12.03 rows=503 width=8) (actual time=0.234..1.412 rows=503 loops=1)
+                          Buffers: shared read=7
+Planning:
+  Buffers: shared hit=752 read=94
+Planning Time: 57.036 ms
+Execution Time: 116.061 ms

@@ -1,0 +1,15 @@
+label,query,exec_ms,planning_ms,shared_hit,shared_read,plan_file
+cold_limited_pg,01_single_ticker_chart,16.52,41.81,411,206,01_single_ticker_chart__cold_limited_pg.txt
+cold_limited_pg,02_cross_section_snapshot,344.22,115.95,14545,9337,02_cross_section_snapshot__cold_limited_pg.txt
+cold_limited_pg,03_top_movers,1825.03,28.69,695,111252,03_top_movers__cold_limited_pg.txt
+cold_limited_pg,06_volatility_scan,2.27,32.81,401,94,06_volatility_scan__cold_limited_pg.txt
+cold_limited_pg,09_daily_rollup,220.07,127.17,25332,2574,09_daily_rollup__cold_limited_pg.txt
+cold_limited_pg,09b_daily_rollup_matview,2.13,27.11,269,80,09b_daily_rollup_matview__cold_limited_pg.txt
+cold_limited_pg,10_brin_friendly_scan,1460.39,26.41,269,6459,10_brin_friendly_scan__cold_limited_pg.txt
+cold_limited_ts,01_single_ticker_chart,17.25,75.16,944,261,01_single_ticker_chart__cold_limited_ts.txt
+cold_limited_ts,02_cross_section_snapshot,335.48,181.84,3379,4940,02_cross_section_snapshot__cold_limited_ts.txt
+cold_limited_ts,03_top_movers,116.06,57.04,22688,4813,03_top_movers__cold_limited_ts.txt
+cold_limited_ts,06_volatility_scan,2.79,58.82,829,129,06_volatility_scan__cold_limited_ts.txt
+cold_limited_ts,09_daily_rollup,250.84,208.36,283255,2912,09_daily_rollup__cold_limited_ts.txt
+cold_limited_ts,09b_daily_rollup_matview,2.29,41.92,590,101,09b_daily_rollup_matview__cold_limited_ts.txt
+cold_limited_ts,10_brin_friendly_scan,728.26,51.67,341739,5751,10_brin_friendly_scan__cold_limited_ts.txt

@@ -1,0 +1,98 @@
+// EquityDB — schema for dbdiagram.io
+//
+// Paste the contents of this file into https://dbdiagram.io/d and click
+// "Export to PNG" to regenerate docs/er_diagram.png.
+//
+// Diagram scope: only the tables central to the teaching story are shown.
+// The running schema also contains `exchange` and `trading_calendar`
+// (populated and queried by ingest/seed code) but those are suppressed
+// from the ER to keep the diagram focused on the fact-table side.
+// `bar_1d` is drawn as a table for context — in Postgres it's a
+// MATERIALIZED VIEW over bar_5m.
+
+Project equitydb {
+  database_type: 'PostgreSQL'
+  Note: '''
+    5-minute OHLCV for S&P 500 tickers, 2023–2024.
+    bar_5m is RANGE-partitioned on ts (24 monthly children + default).
+    bar_1d is a materialized view, not a base table — shown here for context.
+  '''
+}
+
+Table sector {
+  sector_id smallint [pk, increment]
+  name      text     [not null, unique, note: "GICS Sector"]
+}
+
+Table industry {
+  industry_id integer  [pk, increment]
+  sector_id   smallint [not null, ref: > sector.sector_id]
+  name        text     [not null, note: "GICS Sub-Industry"]
+  indexes {
+    (sector_id, name) [unique]
+  }
+}
+
+Table ticker {
+  ticker_id    integer  [pk, increment]
+  symbol       text     [not null, unique]
+  name         text     [not null]
+  industry_id  integer  [ref: > industry.industry_id]
+  cik          bigint
+  headquarters text
+  date_added   date
+  is_active    boolean  [not null, default: true]
+}
+
+Table bar_5m {
+  ticker_id   integer          [not null, ref: > ticker.ticker_id]
+  ts          timestamptz      [not null]
+  open        "double precision" [not null]
+  high        "double precision" [not null]
+  low         "double precision" [not null]
+  close       "double precision" [not null]
+  volume      bigint           [not null]
+  vwap        "double precision"
+  trade_count integer
+  indexes {
+    (ticker_id, ts) [pk]
+    ts [type: brin, name: 'bar_5m_ts_brin_idx', note: "pages_per_range=32"]
+  }
+  Note: '''
+    PARTITION BY RANGE (ts) — 24 monthly children
+    (bar_5m_2023_01 .. bar_5m_2024_12) + bar_5m_default.
+    CHECK: high >= low, high >= open/close, low <= open/close, volume >= 0.
+  '''
+}
+
+Table bar_1d {
+  ticker_id    integer          [not null, ref: > ticker.ticker_id]
+  session_date date             [not null]
+  open         "double precision"
+  high         "double precision"
+  low          "double precision"
+  close        "double precision"
+  volume       bigint
+  vwap         "double precision"
+  trade_count  integer
+  indexes {
+    (ticker_id, session_date) [pk]
+    session_date [name: 'bar_1d_date_idx']
+  }
+  Note: '''
+    Materialized view over bar_5m, RTH-filtered using
+    (ts AT TIME ZONE 'America/New_York') to handle DST.
+    Refresh: REFRESH MATERIALIZED VIEW CONCURRENTLY bar_1d;
+  '''
+}
+
+TableGroup reference_data {
+  sector
+  industry
+  ticker
+}
+
+TableGroup market_data {
+  bar_5m
+  bar_1d
+}

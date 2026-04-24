@@ -1,0 +1,13 @@
+Sort  (cost=29263.51..29395.78 rows=52907 width=56) (actual time=60.355..60.383 rows=690 loops=1)
+  Sort Key: bar_5m.ts
+  Sort Method: quicksort  Memory: 62kB
+  Buffers: shared hit=6403
+  ->  HashAggregate  (cost=24451.31..25112.65 rows=52907 width=56) (actual time=59.988..60.209 rows=690 loops=1)
+        Group Key: bar_5m.ts
+        Batches: 1  Memory Usage: 1681kB
+        Buffers: shared hit=6403
+        ->  Index Scan using bar_5m_2024_01_pkey on bar_5m_2024_01 bar_5m  (cost=0.42..21972.95 rows=165224 width=24) (actual time=0.025..37.425 rows=172952 loops=1)
+              Index Cond: ((ts >= '2024-01-02 14:30:00+00'::timestamp with time zone) AND (ts < '2024-01-06 00:00:00+00'::timestamp with time zone))
+              Buffers: shared hit=6403
+Planning Time: 0.175 ms
+Execution Time: 60.578 ms

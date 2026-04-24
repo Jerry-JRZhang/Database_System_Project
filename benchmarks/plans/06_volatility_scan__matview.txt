@@ -1,0 +1,20 @@
+WindowAgg  (cost=41.88..44.73 rows=67 width=16) (actual time=0.037..0.174 rows=78 loops=1)
+  Buffers: shared hit=8
+  ->  WindowAgg  (cost=41.88..43.39 rows=67 width=16) (actual time=0.034..0.061 rows=78 loops=1)
+        Buffers: shared hit=8
+        ->  Sort  (cost=41.88..42.05 rows=67 width=16) (actual time=0.032..0.035 rows=78 loops=1)
+              Sort Key: b.ts
+              Sort Method: quicksort  Memory: 28kB
+              Buffers: shared hit=8
+              ->  Nested Loop  (cost=0.70..39.85 rows=67 width=16) (actual time=0.010..0.025 rows=78 loops=1)
+                    Buffers: shared hit=8
+                    ->  Index Scan using ticker_symbol_key on ticker t  (cost=0.27..2.49 rows=1 width=4) (actual time=0.004..0.004 rows=1 loops=1)
+                          Index Cond: (symbol = 'NVDA'::text)
+                          Buffers: shared hit=3
+                    ->  Index Scan using bar_5m_2024_10_pkey on bar_5m_2024_10 b  (cost=0.42..36.68 rows=68 width=20) (actual time=0.005..0.014 rows=78 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-10-01 13:30:00+00'::timestamp with time zone) AND (ts < '2024-10-01 20:00:00+00'::timestamp with time zone))
+                          Buffers: shared hit=5
+Planning:
+  Buffers: shared hit=8
+Planning Time: 0.217 ms
+Execution Time: 0.193 ms

@@ -1,0 +1,321 @@
+GroupAggregate  (cost=11601.56..50740.30 rows=112 width=68) (actual time=196.500..245.527 rows=252 loops=1)
+  Group Key: ((b.ts)::date)
+  Buffers: shared hit=40418 read=828
+  ->  Sort  (cost=11601.56..11601.84 rows=112 width=36) (actual time=186.945..187.736 rows=19907 loops=1)
+        Sort Key: ((b.ts)::date)
+        Sort Method: quicksort  Memory: 2013kB
+        Buffers: shared hit=4 read=792
+        ->  Nested Loop  (cost=0.70..11597.75 rows=112 width=36) (actual time=1.554..180.173 rows=19907 loops=1)
+              Buffers: shared hit=1 read=792
+              ->  Index Scan using ticker_symbol_key on ticker t  (cost=0.27..2.49 rows=1 width=4) (actual time=0.601..0.603 rows=1 loops=1)
+                    Index Cond: (symbol = 'AAPL'::text)
+                    Buffers: shared hit=1 read=2
+              ->  Custom Scan (ChunkAppend) on bar_5m b  (cost=0.42..11593.85 rows=113 width=36) (actual time=0.931..176.555 rows=19907 loops=1)
+                    Chunks excluded during startup: 0
+                    Hypertables excluded during runtime: 0
+                    Buffers: shared read=790
+                    ->  Index Scan using "13_25_bar_5m_pkey" on _hyper_1_13_chunk b_1  (cost=0.42..918.16 rows=5 width=36) (actual time=0.920..8.443 rows=869 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 1175
+                          Buffers: shared read=37
+                    ->  Index Scan using "14_27_bar_5m_pkey" on _hyper_1_14_chunk b_2  (cost=0.42..982.84 rows=10 width=36) (actual time=0.863..14.660 rows=1738 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2332
+                          Buffers: shared read=69
+                    ->  Index Scan using "15_29_bar_5m_pkey" on _hyper_1_15_chunk b_3  (cost=0.42..844.32 rows=9 width=36) (actual time=0.848..13.492 rows=1501 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2079
+                          Buffers: shared read=61
+                    ->  Index Scan using "16_31_bar_5m_pkey" on _hyper_1_16_chunk b_4  (cost=0.42..920.95 rows=9 width=36) (actual time=0.906..14.679 rows=1659 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2235
+                          Buffers: shared read=66
+                    ->  Index Scan using "17_33_bar_5m_pkey" on _hyper_1_17_chunk b_5  (cost=0.42..970.08 rows=10 width=36) (actual time=0.897..15.176 rows=1738 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2337
+                          Buffers: shared read=69
+                    ->  Index Scan using "18_35_bar_5m_pkey" on _hyper_1_18_chunk b_6  (cost=0.42..877.37 rows=9 width=36) (actual time=0.866..13.605 rows=1580 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2102
+                          Buffers: shared read=63
+                    ->  Index Scan using "19_37_bar_5m_pkey" on _hyper_1_19_chunk b_7  (cost=0.42..817.92 rows=8 width=36) (actual time=0.869..12.747 rows=1501 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2008
+                          Buffers: shared read=60
+                    ->  Index Scan using "20_39_bar_5m_pkey" on _hyper_1_20_chunk b_8  (cost=0.42..997.82 rows=10 width=36) (actual time=0.944..15.807 rows=1738 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2386
+                          Buffers: shared read=69
+                    ->  Index Scan using "21_41_bar_5m_pkey" on _hyper_1_21_chunk b_9  (cost=0.42..918.10 rows=9 width=36) (actual time=0.944..14.790 rows=1659 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2176
+                          Buffers: shared read=65
+                    ->  Index Scan using "22_43_bar_5m_pkey" on _hyper_1_22_chunk b_10  (cost=0.42..887.02 rows=9 width=36) (actual time=0.932..13.651 rows=1580 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2082
+                          Buffers: shared read=62
+                    ->  Index Scan using "23_45_bar_5m_pkey" on _hyper_1_23_chunk b_11  (cost=0.42..1003.05 rows=10 width=36) (actual time=0.976..14.864 rows=1738 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2307
+                          Buffers: shared read=68
+                    ->  Index Scan using "24_47_bar_5m_pkey" on _hyper_1_24_chunk b_12  (cost=0.42..931.92 rows=10 width=36) (actual time=0.859..14.179 rows=1659 loops=1)
+                          Index Cond: (ticker_id = t.ticker_id)
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 2054
+                          Buffers: shared read=63
+                    ->  Index Scan using "25_49_bar_5m_pkey" on _hyper_1_25_chunk b_13  (cost=0.42..524.31 rows=5 width=36) (actual time=0.875..8.865 rows=947 loops=1)
+                          Index Cond: ((ticker_id = t.ticker_id) AND (ts >= '2024-01-01 00:00:00+00'::timestamp with time zone) AND (ts < '2025-01-01 00:00:00+00'::timestamp with time zone))
+                          Filter: (((ts)::time without time zone >= '13:30:00'::time without time zone) AND ((ts)::time without time zone <= '20:00:00'::time without time zone))
+                          Rows Removed by Filter: 1186
+                          Buffers: shared read=38
+  SubPlan 1
+    ->  Limit  (cost=174.71..174.71 rows=1 width=16) (actual time=0.126..0.126 rows=1 loops=252)
+          Buffers: shared hit=20192 read=36
+          ->  Sort  (cost=174.71..174.71 rows=1 width=16) (actual time=0.123..0.123 rows=1 loops=252)
+                Sort Key: b_14.ts
+                Sort Method: top-N heapsort  Memory: 25kB
+                Buffers: shared hit=20192 read=36
+                ->  Nested Loop  (cost=0.71..174.70 rows=1 width=16) (actual time=0.069..0.113 rows=79 loops=252)
+                      Buffers: shared hit=20189 read=36
+                      ->  Index Scan using ticker_symbol_key on ticker t_1  (cost=0.27..2.49 rows=1 width=4) (actual time=0.002..0.002 rows=1 loops=252)
+                            Index Cond: (symbol = 'AAPL'::text)
+                            Buffers: shared hit=756
+                      ->  Custom Scan (ConstraintAwareAppend)  (cost=0.43..171.96 rows=25 width=20) (actual time=0.060..0.099 rows=79 loops=252)
+                            Hypertable: bar_5m
+                            Chunks excluded during startup: 0
+                            Buffers: shared hit=19433 read=36
+                            ->  Append  (cost=0.43..171.96 rows=25 width=20) (actual time=0.060..0.094 rows=79 loops=252)
+                                  Buffers: shared hit=19433 read=36
+                                  ->  Index Scan using "1_1_bar_5m_pkey" on _hyper_1_1_chunk b_15  (cost=0.43..5.24 rows=1 width=20) (actual time=0.005..0.005 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756 read=3
+                                  ->  Index Scan using "2_3_bar_5m_pkey" on _hyper_1_2_chunk b_16  (cost=0.43..6.79 rows=1 width=20) (actual time=0.004..0.004 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "3_5_bar_5m_pkey" on _hyper_1_3_chunk b_17  (cost=0.43..7.30 rows=1 width=20) (actual time=0.003..0.003 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "4_7_bar_5m_pkey" on _hyper_1_4_chunk b_18  (cost=0.43..6.79 rows=1 width=20) (actual time=0.004..0.004 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "5_9_bar_5m_pkey" on _hyper_1_5_chunk b_19  (cost=0.43..6.79 rows=1 width=20) (actual time=0.003..0.003 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "6_11_bar_5m_pkey" on _hyper_1_6_chunk b_20  (cost=0.43..6.79 rows=1 width=20) (actual time=0.004..0.004 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "7_13_bar_5m_pkey" on _hyper_1_7_chunk b_21  (cost=0.43..6.79 rows=1 width=20) (actual time=0.004..0.004 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "8_15_bar_5m_pkey" on _hyper_1_8_chunk b_22  (cost=0.43..6.79 rows=1 width=20) (actual time=0.003..0.003 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "9_17_bar_5m_pkey" on _hyper_1_9_chunk b_23  (cost=0.43..6.79 rows=1 width=20) (actual time=0.004..0.004 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "10_19_bar_5m_pkey" on _hyper_1_10_chunk b_24  (cost=0.43..7.30 rows=1 width=20) (actual time=0.004..0.004 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "11_21_bar_5m_pkey" on _hyper_1_11_chunk b_25  (cost=0.43..6.79 rows=1 width=20) (actual time=0.003..0.003 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "12_23_bar_5m_pkey" on _hyper_1_12_chunk b_26  (cost=0.43..6.79 rows=1 width=20) (actual time=0.003..0.003 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=753 read=3
+                                  ->  Index Scan using "13_25_bar_5m_pkey" on _hyper_1_13_chunk b_27  (cost=0.43..9.45 rows=1 width=20) (actual time=0.002..0.003 rows=3 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=781
+                                  ->  Index Scan using "14_27_bar_5m_pkey" on _hyper_1_14_chunk b_28  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.004 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=804
+                                  ->  Index Scan using "15_29_bar_5m_pkey" on _hyper_1_15_chunk b_29  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=799
+                                  ->  Index Scan using "16_31_bar_5m_pkey" on _hyper_1_16_chunk b_30  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=802
+                                  ->  Index Scan using "17_33_bar_5m_pkey" on _hyper_1_17_chunk b_31  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=805
+                                  ->  Index Scan using "18_35_bar_5m_pkey" on _hyper_1_18_chunk b_32  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.004 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=801
+                                  ->  Index Scan using "19_37_bar_5m_pkey" on _hyper_1_19_chunk b_33  (cost=0.43..6.27 rows=1 width=20) (actual time=0.002..0.003 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=800
+                                  ->  Index Scan using "20_39_bar_5m_pkey" on _hyper_1_20_chunk b_34  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=805
+                                  ->  Index Scan using "21_41_bar_5m_pkey" on _hyper_1_21_chunk b_35  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=803
+                                  ->  Index Scan using "22_43_bar_5m_pkey" on _hyper_1_22_chunk b_36  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.004 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=802
+                                  ->  Index Scan using "23_45_bar_5m_pkey" on _hyper_1_23_chunk b_37  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.004 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=806
+                                  ->  Index Scan using "24_47_bar_5m_pkey" on _hyper_1_24_chunk b_38  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.004 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=803
+                                  ->  Index Scan using "25_49_bar_5m_pkey" on _hyper_1_25_chunk b_39  (cost=0.43..4.73 rows=1 width=20) (actual time=0.002..0.003 rows=4 loops=252)
+                                        Index Cond: ((ticker_id = t_1.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=783
+  SubPlan 2
+    ->  Limit  (cost=174.71..174.71 rows=1 width=16) (actual time=0.094..0.094 rows=1 loops=252)
+          Buffers: shared hit=20222
+          ->  Sort  (cost=174.71..174.71 rows=1 width=16) (actual time=0.091..0.091 rows=1 loops=252)
+                Sort Key: b_40.ts DESC
+                Sort Method: top-N heapsort  Memory: 25kB
+                Buffers: shared hit=20222
+                ->  Nested Loop  (cost=0.71..174.70 rows=1 width=16) (actual time=0.025..0.081 rows=79 loops=252)
+                      Buffers: shared hit=20222
+                      ->  Index Scan using ticker_symbol_key on ticker t_2  (cost=0.27..2.49 rows=1 width=4) (actual time=0.001..0.002 rows=1 loops=252)
+                            Index Cond: (symbol = 'AAPL'::text)
+                            Buffers: shared hit=756
+                      ->  Custom Scan (ConstraintAwareAppend)  (cost=0.43..171.96 rows=25 width=20) (actual time=0.017..0.067 rows=79 loops=252)
+                            Hypertable: bar_5m
+                            Chunks excluded during startup: 0
+                            Buffers: shared hit=19466
+                            ->  Append  (cost=0.43..171.96 rows=25 width=20) (actual time=0.017..0.062 rows=79 loops=252)
+                                  Buffers: shared hit=19466
+                                  ->  Index Scan using "25_49_bar_5m_pkey" on _hyper_1_25_chunk b_41  (cost=0.43..4.73 rows=1 width=20) (actual time=0.002..0.003 rows=4 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=783
+                                  ->  Index Scan using "24_47_bar_5m_pkey" on _hyper_1_24_chunk b_42  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=803
+                                  ->  Index Scan using "23_45_bar_5m_pkey" on _hyper_1_23_chunk b_43  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=806
+                                  ->  Index Scan using "22_43_bar_5m_pkey" on _hyper_1_22_chunk b_44  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=802
+                                  ->  Index Scan using "21_41_bar_5m_pkey" on _hyper_1_21_chunk b_45  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=803
+                                  ->  Index Scan using "20_39_bar_5m_pkey" on _hyper_1_20_chunk b_46  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=805
+                                  ->  Index Scan using "19_37_bar_5m_pkey" on _hyper_1_19_chunk b_47  (cost=0.43..6.27 rows=1 width=20) (actual time=0.002..0.003 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=800
+                                  ->  Index Scan using "18_35_bar_5m_pkey" on _hyper_1_18_chunk b_48  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=801
+                                  ->  Index Scan using "17_33_bar_5m_pkey" on _hyper_1_17_chunk b_49  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=805
+                                  ->  Index Scan using "16_31_bar_5m_pkey" on _hyper_1_16_chunk b_50  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=802
+                                  ->  Index Scan using "15_29_bar_5m_pkey" on _hyper_1_15_chunk b_51  (cost=0.43..6.79 rows=1 width=20) (actual time=0.002..0.003 rows=6 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=799
+                                  ->  Index Scan using "14_27_bar_5m_pkey" on _hyper_1_14_chunk b_52  (cost=0.43..7.30 rows=1 width=20) (actual time=0.002..0.003 rows=7 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=804
+                                  ->  Index Scan using "13_25_bar_5m_pkey" on _hyper_1_13_chunk b_53  (cost=0.43..9.45 rows=1 width=20) (actual time=0.002..0.002 rows=3 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=781
+                                  ->  Index Scan using "12_23_bar_5m_pkey" on _hyper_1_12_chunk b_54  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "11_21_bar_5m_pkey" on _hyper_1_11_chunk b_55  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "10_19_bar_5m_pkey" on _hyper_1_10_chunk b_56  (cost=0.43..7.30 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "9_17_bar_5m_pkey" on _hyper_1_9_chunk b_57  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "8_15_bar_5m_pkey" on _hyper_1_8_chunk b_58  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "7_13_bar_5m_pkey" on _hyper_1_7_chunk b_59  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "6_11_bar_5m_pkey" on _hyper_1_6_chunk b_60  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "5_9_bar_5m_pkey" on _hyper_1_5_chunk b_61  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "4_7_bar_5m_pkey" on _hyper_1_4_chunk b_62  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "3_5_bar_5m_pkey" on _hyper_1_3_chunk b_63  (cost=0.43..7.30 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "2_3_bar_5m_pkey" on _hyper_1_2_chunk b_64  (cost=0.43..6.79 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+                                  ->  Index Scan using "1_1_bar_5m_pkey" on _hyper_1_1_chunk b_65  (cost=0.43..5.24 rows=1 width=20) (actual time=0.001..0.001 rows=0 loops=252)
+                                        Index Cond: ((ticker_id = t_2.ticker_id) AND (ts >= ((b.ts)::date + '13:30:00'::time without time zone)) AND (ts <= ((b.ts)::date + '20:00:00'::time without time zone)))
+                                        Filter: ((ts)::date = (b.ts)::date)
+                                        Buffers: shared hit=756
+Planning:
+  Buffers: shared hit=3383 read=282
+Planning Time: 208.356 ms
+Execution Time: 250.845 ms
