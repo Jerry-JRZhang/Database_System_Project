@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+data/*.parquet
+benchmarks/plans/*.txt
+benchmarks/results.csv
+.ipynb_checkpoints/
+.DS_Store
+*.log

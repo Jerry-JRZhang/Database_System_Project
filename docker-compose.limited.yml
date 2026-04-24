@@ -1,0 +1,64 @@
+# Limited-memory override for I/O-cost benchmarks.
+#
+# Stack this ON TOP of docker-compose.yml:
+#   docker compose -f docker-compose.yml -f docker-compose.limited.yml up -d
+#
+# Goal: working set (~4 GB) does not fit in the container's memory, so
+# full scans of bar_5m actually hit disk. EXPLAIN plans show shared read=N
+# instead of shared hit=N, and the matview / partition-pruning / chunk-
+# exclusion wins become real I/O wins rather than plan-shape wins.
+#
+# Sizing (Windows Docker Desktop, bind-mounted Windows files):
+#   mem_limit=256m       → total container RAM cap (shared_buffers + page cache + WAL + procs)
+#   shared_buffers=64MB  → ~8k pg pages, well below a single monthly partition
+#   effective_cache_size=128MB
+#   work_mem=16MB / maintenance_work_mem=32MB → aggressive; we don't need more
+#
+# This is the TIGHT configuration — ~6% of working set fits in RAM. Most
+# full-partition scans spill to disk. Q3 (the worst case, scans one full
+# monthly partition with no ticker filter) stays ~3-7 s on Windows
+# VirtioFS; everything else is well under that.
+services:
+  postgres:
+    mem_limit: 256m
+    memswap_limit: 256m
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_buffers=64MB"
+      - "-c"
+      - "effective_cache_size=128MB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=32MB"
+      - "-c"
+      - "max_wal_size=512MB"
+      - "-c"
+      - "checkpoint_timeout=15min"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+
+  timescale:
+    mem_limit: 256m
+    memswap_limit: 256m
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_buffers=64MB"
+      - "-c"
+      - "effective_cache_size=128MB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=32MB"
+      - "-c"
+      - "max_wal_size=512MB"
+      - "-c"
+      - "checkpoint_timeout=15min"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "shared_preload_libraries=timescaledb,pg_stat_statements"
